@@ -1,12 +1,41 @@
 {% extends 'base_auth.html' %}
+{% load static %}
 
 {% block content %}
+<div class="card bg-light">
+    <article class="card-body mx-auto" style="width: 500px;">
+        <h2 class="card-title mt-3 text-center">Create Account</h2>
+        <p class="text-center">Get started with your free account</p>
+        <form method= "POST" action="">
+            <div class="form-group input-group"> <!-- form-group-Username // -->
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input name="username" id = "username" class="form-control" placeholder="UserName" type="text">
+            </div> <!-- form-group-Username // -->
 
-<div class="card">
-    <div class = "card-body">
-        <h1> Register </h1>
-    </div>
-</div>
+            <div class="form-group input-group"> <!-- form-group-Email // -->
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                </div>
+                <input name="email" class="form-control" placeholder="Email address" id ="email" type="email">
+            </div> <!-- form-group-Email // -->
 
+            <div class="form-group input-group"> <!-- form-group-Password // -->
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input name = "password" id = "password" class="form-control" placeholder="Create password" type="password" >
+            </div> <!-- form-group-Password // -->
+            <p class="float-right"><small>SHOW PASSWORD</small></p>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Register" class ="btn btn-block btn-primary">
+            </div> <!-- form-group-Submit-Button // --> 
 
+            <p class="text-center">Have an account? <a href="">Log In</a> </p>                                                                 
+        </form>
+    </article>
+</div> <!-- card.// -->
+    
 {% endblock %}
