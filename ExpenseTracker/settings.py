@@ -11,14 +11,17 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 
+from django.contrib import messages
+from dotenv import load_dotenv
 from pathlib import Path
+import environ
 import os
 # import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv()
 
 
 
@@ -26,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$%w#*d%@ci)e%@_nu*av18bs6l%70ze&*@3wscdqyewritj@2_'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,10 +88,10 @@ WSGI_APPLICATION = 'ExpenseTracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ExpenseTrackerDB',
-        'USER': 'postgres',
-        'PASSWORD' : 'Sumit@1998',
-        'HOST' : 'localhost',
+        'NAME': str(os.getenv('DB_NAME')),
+        'USER': str(os.getenv('DB_USER')),
+        'PASSWORD' : str(os.getenv('DB_USER_PASSWORD')),
+        'HOST' : str(os.getenv('DB_HOST')),
     }
 }
 
@@ -141,3 +144,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django_heroku.settings(locals())
+
+MESSAGE_TAGS= {
+    messages.ERROR : 'danger'
+}
+
+
+# Email Configuration 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))

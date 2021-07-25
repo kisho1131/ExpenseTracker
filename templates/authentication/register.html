@@ -6,13 +6,17 @@
     <article class="card-body mx-auto" style="width: 500px;">
         <h2 class="card-title mt-3 text-center">Create Account</h2>
         <p class="text-center">Get started with your free account</p>
-        <form method= "POST" action="">
+        
+        <form method= "POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            {% include 'partials/_message.html' %}
+
 
             <div class="form-group input-group"> <!-- form-group-Username // -->
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="username" id = "username" class="form-control" placeholder="UserName" type="text">
+                <input name="username" id = "username" class="form-control" placeholder="UserName" type="text" value="{{fieldValues.username}}">
             </div> <!-- form-group-Username // -->
             <div class="invalid_feedback invalid-feedback" style="display: none;"> </div>
             <p class="text-sm text-success usernameSuccessOutput"></p>
@@ -23,7 +27,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <input name="email" class="form-control" placeholder="Email Address" id ="email" type="email">
+                <input name="email" class="form-control" placeholder="Email Address" id ="email" type="email" value = "{{fieldValues.email}}">
             </div> <!-- form-group-Email // -->
             <div class="invalid_emailFeedBack invalid-feedback" style="display: none;"> </div>
             <p class="text-sm text-success emailSuccessOutput"></p>
@@ -39,7 +43,7 @@
 
             <br>
             <div class="form-group py-3">
-                <input type="submit" value="Register" class ="btn btn-block btn-primary">
+                <input type="submit" value="Register" class ="btn btn-block btn-primary submit-btn">
             </div> <!-- form-group-Submit-Button // --> 
 
             <p class="text-center">Have an account? <a href="">Log In</a> </p>                                                                 

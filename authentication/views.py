@@ -1,21 +1,56 @@
 from django.shortcuts import render
 from django.views import View
-import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-# from django.core.validators import validate_email
 from validate_email import validate_email
+from django.contrib import messages
+from django.core.mail import EmailMessage
+import json
 
 
-# Create your views here.
-
+# Create your views here
 class RegistrationView(View):
-    def get(self, requerts):
-        return render(requerts, 'authentication/register.html')
+    def get(self, request):
+        return render(request, 'authentication/register.html')
+    
+    def post(self, request):
+        #get user data
+        #Validate
+        #Create Account
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        context = {
+            'fieldValues' : request.POST
+        }
+
+        if not User.objects.filter(username=username).exists():
+            if not User.objects.filter(email=email).exists():
+
+                if len(password) < 6:
+                    messages.error(request, "Password Too Short !!")
+                    return render(request, 'authentication/register.html', context)
+                user = User.objects.create_user(username= username, email=email)
+                user.set_password(password)
+                user.is_active = False
+                user.save()
+                emailSubject = "Active Your Account"
+                emailBody = "Testing the Email!! Stay Online !! "
+                email = EmailMessage(
+                    emailSubject,
+                    emailBody,
+                    'webtrills.india@gmail.com',
+                    [email],
+                )
+                email.send(fail_silently=False)
+                messages.success(request, "Account Created Successfully !!")
+                return render(request, 'authentication/register.html')
+        return render(request, 'authentication/register.html')
+
 
 class UsernameValidationView(View):
-    def post(self, requests):
-        data = json.loads(requests.body)
+    def post(self, request):
+        data = json.loads(request.body)
         username = data['username']
         if not str(username).isalnum():
             return JsonResponse({'username_error' : 'Username should only contain Alphanumeric [(a-z)(A-Z)(0-9)] Characters'}, status = 400)
@@ -26,8 +61,8 @@ class UsernameValidationView(View):
 
 # Email Validation 
 class EmailValidationView(View):
-    def post(self, requests):
-        data = json.loads(requests.body)
+    def post(self, request):
+        data = json.loads(request.body)
         email = data['email']
         if not validate_email(email):
             return JsonResponse({'email_error' : 'Enter Valid Email ID'}, status = 400)
