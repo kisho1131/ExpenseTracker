@@ -7,6 +7,7 @@
         <h2 class="card-title mt-3 text-center">Create Account</h2>
         <p class="text-center">Get started with your free account</p>
         <form method= "POST" action="">
+
             <div class="form-group input-group"> <!-- form-group-Username // -->
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -14,24 +15,30 @@
                 <input name="username" id = "username" class="form-control" placeholder="UserName" type="text">
             </div> <!-- form-group-Username // -->
             <div class="invalid_feedback invalid-feedback" style="display: none;"> </div>
+            <p class="text-sm text-success usernameSuccessOutput"></p>
 
-            <div class="form-group input-group"> <!-- form-group-Email // -->
+
+            <!-- form-group-Email // -->
+            <div class="form-group input-group"> 
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
                 <input name="email" class="form-control" placeholder="Email Address" id ="email" type="email">
             </div> <!-- form-group-Email // -->
             <div class="invalid_emailFeedBack invalid-feedback" style="display: none;"> </div>
+            <p class="text-sm text-success emailSuccessOutput"></p>
 
-            <div class="form-group input-group"> <!-- form-group-Password // -->
+             <!-- form-group-Password // -->
+            <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
                 <input name = "password" id = "password" class="form-control" placeholder="Create password" type="password" >
             </div> <!-- form-group-Password // -->
-            <p class="float-right"><small>SHOW PASSWORD</small></p>
+            <small class="float-right showPasswordToggle ">SHOW PASSWORD</small>
+
             <br>
-            <div class="form-group">
+            <div class="form-group py-3">
                 <input type="submit" value="Register" class ="btn btn-block btn-primary">
             </div> <!-- form-group-Submit-Button // --> 
 
