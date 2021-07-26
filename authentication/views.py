@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.contrib import auth
 import json
 
 from django.urls import reverse
@@ -79,7 +80,6 @@ class VarificationView(View):
             # if not account_activation_token.check_token(user, token):
             #     return redirect('login' + '?Message=' + 'User Already Activated')
             
-
             if user.is_active:
                 return redirect('login')
             user.is_active = True
@@ -98,7 +98,27 @@ class VarificationView(View):
 class LoginView(View):
     def get(self, request):
         return render(request, 'authentication/login.html')
-        
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    auth.login(request, user)
+                    messages.success(request, "Welcome, " + user.username + ' You are not Logged in')
+                    return redirect('index')
+
+                messages.error("Your Account is not verified, Please Check your mail to Verify Account") 
+                return render(request, 'authentication/login.html')
+
+            messages.error(request, "Invalid Credentials, Try Again !! ") 
+            return render(request, 'authentication/login.html')
+
+        messages.error(request, "Username and Password is Required ") 
+        return render(request, 'authentication/login.html')
+
 
 
 
@@ -127,3 +147,9 @@ class EmailValidationView(View):
             return JsonResponse({'email_error' : 'Sorry!! Email is in Use'}, status = 409)
 
         return JsonResponse({'email_valid':True})
+
+class LogoutView(View):
+    def post(self, request):
+        auth.logout(request)
+        messages.success(request, "You are Successfully Logged out !!")
+        return redirect('login')
