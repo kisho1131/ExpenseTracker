@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -14,8 +14,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
 
 # Create your views here
-
-
 
 
 #View for User Registration
@@ -45,27 +43,27 @@ class RegistrationView(View):
                 user.is_active = False
                 user.save()
 
-                # uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-                # domain = get_current_site(request).domain
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                domain = get_current_site(request).domain
                 # print("domain = " + domain)
 
-                # link = reverse('activate', kwargs= {'uidb64':uidb64, 'token':token_generator.make_token(user)})
+                link = reverse('activate', kwargs= {'uidb64':uidb64, 'token':token_generator.make_token(user)})
 
                 # print(link)
-                # activate_url = domain+link
+                activate_url = 'http://'+domain+link
                 # print("=======================")
                 # print(activate_url)
 
                 emailSubject = "Active Your Account"
-                emailBody = "Hi !!" + user.username + "\n Please use the link to verify your Acoount \n"
+                emailBody = "Greeting, " + user.username + "\nPlease use the link to verify your Acoount \n" + activate_url
                 email = EmailMessage(
                     emailSubject,
                     emailBody,
-                    'sumit@gmail.com',
+                    'noreply@google.com',
                     [email],
                 )
                 email.send(fail_silently=False)
-                messages.success(request, "Account Created Successfully !!")
+                messages.success(request, "Account Created Successfully !! Check your Email ID to activate Account ")
                 return render(request, 'authentication/register.html')
         return render(request, 'authentication/register.html')
 
@@ -73,12 +71,34 @@ class RegistrationView(View):
 # Account Verification View 
 class VarificationView(View):
     def get(self, request, uidb64, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk = id)
+            print(user.is_active)
+
+            # if not account_activation_token.check_token(user, token):
+            #     return redirect('login' + '?Message=' + 'User Already Activated')
+            
+
+            if user.is_active:
+                return redirect('login')
+            user.is_active = True
+            user.save()
+            messages.success(request, "Account Activated Successfully !!")
+            return redirect('login')
+        except Exception as ex:
+            pass
+        
         return redirect('login')
     
 
 
 
-
+# Login Redirect View 
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'authentication/login.html')
+        
 
 
 
