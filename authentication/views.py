@@ -7,8 +7,18 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 import json
 
+from django.urls import reverse
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from .utils import token_generator
 
 # Create your views here
+
+
+
+
+#View for User Registration
 class RegistrationView(View):
     def get(self, request):
         return render(request, 'authentication/register.html')
@@ -34,12 +44,24 @@ class RegistrationView(View):
                 user.set_password(password)
                 user.is_active = False
                 user.save()
+
+                # uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                # domain = get_current_site(request).domain
+                # print("domain = " + domain)
+
+                # link = reverse('activate', kwargs= {'uidb64':uidb64, 'token':token_generator.make_token(user)})
+
+                # print(link)
+                # activate_url = domain+link
+                # print("=======================")
+                # print(activate_url)
+
                 emailSubject = "Active Your Account"
-                emailBody = "Testing the Email!! Stay Online !! "
+                emailBody = "Hi !!" + user.username + "\n Please use the link to verify your Acoount \n"
                 email = EmailMessage(
                     emailSubject,
                     emailBody,
-                    'webtrills.india@gmail.com',
+                    'sumit@gmail.com',
                     [email],
                 )
                 email.send(fail_silently=False)
@@ -48,6 +70,20 @@ class RegistrationView(View):
         return render(request, 'authentication/register.html')
 
 
+# Account Verification View 
+class VarificationView(View):
+    def get(self, request, uidb64, token):
+        return redirect('login')
+    
+
+
+
+
+
+
+
+
+#View for Username Validation
 class UsernameValidationView(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -58,6 +94,7 @@ class UsernameValidationView(View):
             return JsonResponse({'username_error' : 'Sorry!! username is Already Taken | Choose Another'}, status = 409)
 
         return JsonResponse({'username_valid':True})
+
 
 # Email Validation 
 class EmailValidationView(View):
