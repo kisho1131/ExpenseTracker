@@ -42,6 +42,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django_heroku',
     'expenses',
+    'preferences',
     'authentication',
     'django.contrib.admin',
     'django.contrib.auth',
