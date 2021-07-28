@@ -9,7 +9,10 @@
         {% csrf_token %}
         <div class="input-group">
             <select class="form-select" name = "currency" id="inputGroupSelect04" aria-label="Example select with button addon">
-              <option >Choose...</option>
+              {% if userpreferences.currency %}
+              <option name = "currency" selected>{{userpreferences.currency}}</option>
+              {% endif %}
+                
               {% for currency in currencies %}
               <option name = "currency" value = "{{currency.value}}">{{currency.name}} - {{currency.value}}</option>
               {% endfor %}
@@ -19,6 +22,5 @@
         </form>
 
 </div>
-
 
 {% endblock %}

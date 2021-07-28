@@ -21,7 +21,7 @@ def index(request):
         userpreferences= UserPreference.objects.get(user = request.user)
 
     if request.method == 'GET':
-        return render(request, 'preferences/index.html', {'currencies' : currency_data})
+        return render(request, 'preferences/index.html', {'currencies' : currency_data,  'userpreferences' : userpreferences})
     
     else:
         currency = request.POST['currency']
@@ -31,5 +31,5 @@ def index(request):
         else:
             UserPreference.objects.create(user= request.user, currency = currency)
         messages.success(request, " Preferred Currency Saved :)")
-        return render(request, 'preferences/index.html', {'currencies' : currency_data})
+        return render(request, 'preferences/index.html', {'currencies' : currency_data, 'userpreferences' : userpreferences})
 
