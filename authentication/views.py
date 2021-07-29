@@ -107,8 +107,8 @@ class LoginView(View):
             if user:
                 if user.is_active:
                     auth.login(request, user)
-                    messages.success(request, "Welcome, " + user.username + ' You are not Logged in')
-                    return redirect('index')
+                    messages.success(request, "Welcome, " + user.username + ' You are now Logged in')
+                    return redirect('expenses')
 
                 messages.error("Your Account is not verified, Please Check your mail to Verify Account") 
                 return render(request, 'authentication/login.html')

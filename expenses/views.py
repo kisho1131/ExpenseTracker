@@ -5,6 +5,8 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect, render, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+import json
+from django.http import JsonResponse
 # Create your views here.
 
 @login_required(login_url='/authentication/login')
@@ -90,3 +92,13 @@ def delete_expense(request, id):
     messages.success(request, "Expense Deleted Successfully !!")
     return redirect ('expenses')
     
+
+def search_expenses(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        search_str = data['search']
+
+        expenses = Expense.objects.filter(amount__istartswith=search_str, owner = request.user) | Expense.objects.filter(date__istartswith=search_str, owner = request.user) | Expense.objects.filter(description__icontains=search_str, owner = request.user) | Expense.objects.filter(category__icontains=search_str, owner = request.user)
+    data  = expenses.values()
+    return JsonResponse(list(data), safe = False)
+
