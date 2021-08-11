@@ -6,13 +6,16 @@ const tableBody = document.querySelector(".tbody")
 const noResults = document.querySelector(".no-results")
 tableOutput.style.display = "none"
 
+
 searchField.addEventListener("keyup", (e)=>{
     const searchValue = e.target.value
-    tableBody.innerHTML = ""
+    
+
     if(searchValue.trim().length > 0){
         pagination.style.display ="none"
         console.log('searchvalue', searchValue)
 
+        tableBody.innerHTML= ""
         fetch("/search-expenses", {
             // convert the javascript object into the json object --> seach = id in the index.html
             body:JSON.stringify({search : searchValue}),
@@ -23,7 +26,7 @@ searchField.addEventListener("keyup", (e)=>{
             tableOutput.style.display = "block"
             if(data.length === 0){
                 noResults.style.display = "block";
-                tableOutput.innerHTML = "No Result Found"
+                tableOutput.style.display = "none";
             }else{
                 data.forEach(item => {
                     noResults.style.display = "none";
@@ -34,7 +37,6 @@ searchField.addEventListener("keyup", (e)=>{
                         <td>${item.description}</td>
                         <td>${item.date}</td>
                         </tr>`;
-                        
                 });
             }
         });

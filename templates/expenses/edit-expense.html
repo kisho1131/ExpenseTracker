@@ -50,7 +50,7 @@
 
         <div class="mb-3">
           <label  class="form-label">Date</label>
-          <input type="date" class="form-control" name = "date" value="{{values.date}}" >
+          <input type="date" class="form-control" name = "date" value="{{values.date | date:'Y-m-d'}}" >
         </div>
         <input type="submit" class="btn btn-primary" value="Save Expense">
 

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mt-3"> Add Expenses </h2>
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'income' %}">Income</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Add Income</li>
+    </ol>
+  </nav>
+</div>
+
+  <div class="card" style="width: 45rem;">
+    <div class="card-body">
+      <form action="{% url 'add-income' %}" method="post">
+        <div class="mt-2">
+          {% include 'partials/_message.html' %}
+        </div>
+        <!-- {% include 'partials/_message.html' %} -->
+
+        {% csrf_token %}
+        <div class="mb-3">
+          <label  class="form-label">Amount</label>
+          <input type="number" class="form-control" name = "amount" value="{{values.amount}}"  placeholder="Enter Amount">
+        </div>
+
+        <div class="mb-3">
+          <label  class="form-label">Description </label>
+          <input type="text" class="form-control" name="description" value="{{values.description}}"  placeholder="Enter Description">
+        </div>
+
+
+        <div class="mb-3">
+          <label  class="form-label">Income Source </label>
+          <select class="form-select" name = "source" aria-label="Default select example">
+
+            <option value="{{values.source}}" selected>{{values.source}}</option>
+            {% for sources in source  %}
+            <option value="{{category.name}}" name = "source">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label  class="form-label">Date of Income</label>
+          <input type="date" class="form-control" name = "date" value="{{values.date}}">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Add Expense">
+      </form>
+    </div>
+  </div>
+
+
+{% endblock %}

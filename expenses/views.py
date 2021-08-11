@@ -5,23 +5,27 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect, render, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-import json
 from django.http import JsonResponse
+from preferences.models import UserPreference
+import json
 # Create your views here.
+
 
 @login_required(login_url='/authentication/login')
 def index(request):
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner = request.user)
-    paginator = Paginator(expenses, 3)
+    paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
+    currency  = UserPreference.objects.get(user = request.user).currency
     context = {
-
         'expenses' : expenses,
-        'page_obj' :page_obj
+        'page_obj' :page_obj,
+        'currency' : currency, 
     }
     return render(request, 'expenses/index.html', context=context)
+
 
 def addExpense(request):
 
@@ -48,7 +52,6 @@ def addExpense(request):
         Expense.objects.create(owner= request.user, amount=amount, date = date, category=category, description=description)
         messages.success(request, "Expense Saved Successfully !!")
         return redirect('expenses')
-
 
 
 def expense_edit(request, id):
@@ -97,7 +100,7 @@ def search_expenses(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         search_str = data['search']
-
+        
         expenses = Expense.objects.filter(amount__istartswith=search_str, owner = request.user) | Expense.objects.filter(date__istartswith=search_str, owner = request.user) | Expense.objects.filter(description__icontains=search_str, owner = request.user) | Expense.objects.filter(category__icontains=search_str, owner = request.user)
     data  = expenses.values()
     return JsonResponse(list(data), safe = False)
