@@ -27,7 +27,7 @@ def index(request):
     return render(request, 'expenses/index.html', context=context)
 
 
-def addExpense(request):
+def Add_Expenses(request):
 
     categories = Category.objects.all()
     context ={
@@ -35,17 +35,17 @@ def addExpense(request):
         'values': request.POST
     }
     if request.method == 'GET':
-        return render(request, 'expenses/addExpenses.html', context)
+        return render(request, 'expenses/add-expenses.html', context)
 
     if request.method == 'POST':
         amount = request.POST['amount']
         if not amount:
             messages.error(request, "Amount is Required !!")
-            return render(request, 'expenses/addExpenses.html', context)
+            return render(request, 'expenses/add-expenses.html', context)
         description = request.POST['description']
         if not description:
             messages.error(request, "Description is Required !!")
-            return render(request, 'expenses/addExpenses.html', context)
+            return render(request, 'expenses/add-expenses.html', context)
         category = request.POST.get('category')
         date = request.POST['date']
         
@@ -54,7 +54,7 @@ def addExpense(request):
         return redirect('expenses')
 
 
-def expense_edit(request, id):
+def Edit_Expenses(request, id):
     categories = Category.objects.all()
     expense = Expense.objects.get(pk = id)
     context = {

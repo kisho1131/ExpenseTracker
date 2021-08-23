@@ -23,9 +23,9 @@ def index(request):
     }
     return render(request, 'income/index.html', context=context)
 
+
 @login_required(login_url='/authentication/login')
 def addIncome(request):
-    
     sources = Source.objects.all()
     context ={
         'source' : sources,
@@ -33,7 +33,7 @@ def addIncome(request):
     }
 
     if request.method == 'GET':
-        return render(request, 'income/addIncome.html', context)
+        return render(request, 'income/add-income.html', context)
 
     if request.method == 'POST':
         amount = request.POST['amount']
