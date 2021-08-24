@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .models import Source, UserIncome
 from django.core.paginator import Paginator
 from preferences.models import UserPreference
-
+import json
 # Create your views here.
 
 
@@ -92,3 +93,12 @@ def Delete_Income(request, id):
     income.delete()
     messages.success(request, "Expense Deleted Successfully !!")
     return redirect ('income')
+
+
+def Search_Income(request):
+    if request.method == 'POST':
+        search_str = json.loads(request.body).get('search')
+        
+        income = UserIncome.objects.filter(amount__istartswith=search_str, owner = request.user) | UserIncome.objects.filter(date__istartswith=search_str, owner = request.user) | UserIncome.objects.filter(description__icontains=search_str, owner = request.user) | UserIncome.objects.filter(source__icontains=search_str, owner = request.user)
+    data  = income.values()
+    return JsonResponse(list(data), safe = False)
