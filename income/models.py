@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
 class UserIncome(models.Model):
     amount = models.FloatField()
     date = models.DateField(default=now)
@@ -12,7 +11,7 @@ class UserIncome(models.Model):
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
     source = models.CharField(max_length=266)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.owner.username + " --> Rs " + str(self.amount)+ " ( "+ self.source +" )"
 
     class Meta:
@@ -20,7 +19,6 @@ class UserIncome(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=255)
-
 
     def __str__(self):
         return self.name

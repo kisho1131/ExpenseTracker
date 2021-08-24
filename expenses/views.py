@@ -12,7 +12,7 @@ import json
 
 
 @login_required(login_url='/authentication/login')
-def index(request):
+def Index(request):
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner = request.user)
     paginator = Paginator(expenses, 5)
@@ -89,14 +89,14 @@ def Edit_Expenses(request, id):
         return redirect('expenses')
 
 
-def delete_expense(request, id):
+def Delete_Expenses(request, id):
     expense =Expense.objects.get(pk = id)
     expense.delete()
     messages.success(request, "Expense Deleted Successfully !!")
     return redirect ('expenses')
     
 
-def search_expenses(request):
+def Search_Expenses(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         search_str = data['search']
