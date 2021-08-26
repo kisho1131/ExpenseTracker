@@ -15,8 +15,17 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import threading
 # Create your views here
 
+class EmailThread(threading.Thread):
+    def __init__(self, email) -> None:
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
+    
 
 #View for User Registration
 class RegistrationView(View):
@@ -65,7 +74,7 @@ class RegistrationView(View):
                     'noreply@google.com',
                     [email],
                 )
-                email.send(fail_silently=False)
+                EmailThread(email).start()
                 messages.success(request, "Account Created Successfully !! Check your Email ID to activate Account ")
                 return render(request, 'authentication/register.html')
         return render(request, 'authentication/register.html')
@@ -199,7 +208,7 @@ class ResetPasswordView(View):
                 [email],
             )
 
-            email.send(fail_silently=False)
+            EmailThread(email).start()
             messages.success(request, "Follow the Link send to " + user.email + " to Reset Password !!")
             return render(request, 'authentication/login.html')
 
