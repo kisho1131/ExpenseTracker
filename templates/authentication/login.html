@@ -16,7 +16,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                 </div>
-                <input name="username" id = "username" class="form-control" placeholder="UserName" type="text" value="{{fieldValues.username}}">
+                <input name="username" id = "username" class="form-control" placeholder="Username" type="text" value="{{fieldValues.username}}">
             </div> <!-- form-group-Username // -->
             <div class="invalid_feedback invalid-feedback" style="display: none;"> </div>
             <p class="text-sm text-success usernameSuccessOutput"></p>
@@ -27,7 +27,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                 </div>
-                <input name = "password" id = "password" class="form-control" placeholder="Create password" type="password" >
+                <input name = "password" id = "password" class="form-control" placeholder="Password" type="password" >
             </div> <!-- form-group-Password // -->
 
             <br>
@@ -35,7 +35,8 @@
                 <input type="submit" value="Login" class ="btn btn-block btn-primary submit-btn">
             </div> <!-- form-group-Submit-Button // --> 
 
-            <p class="text-center">Don't Have an account? <a href="">Register </a> </p>                                                                 
+            <p class="text-center">Don't Have an account? <a href="{% url 'register' %}">Register </a> </p>  
+            <p class="text-center">Forget Password <a href="{% url 'reset-password' %}">Reset Password </a> </p>                                                               
         </form>
     </article>
 </div> <!-- card.// -->
