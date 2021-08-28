@@ -19,8 +19,7 @@ def index(request):
     userpreferences = None
     if exists:
         userpreferences= UserPreference.objects.get(user = request.user)
-    else:
-        userpreferences= "Indian Rupee"
+
 
     if request.method == 'GET':
         return render(request, 'preferences/index.html', {'currencies' : currency_data,  'userpreferences' : userpreferences})
