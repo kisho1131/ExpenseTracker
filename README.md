@@ -6,7 +6,7 @@
  ## Key Highlight are:
  <ol>
  <li>Functionality to add & Edit Expenses</li>
- <li>Functionality to add 7 Edit Income</li>
+ <li>Functionality to add & Edit Income</li>
  <li>Visual Representation of Expense & Income Summary (Using Chart & Graphs) </li>
  <li>Functionality to download the Data in (CSV, XLS, PDF) format</li>
  </ol>
