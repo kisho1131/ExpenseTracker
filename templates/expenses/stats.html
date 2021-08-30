@@ -2,22 +2,23 @@
 {% load static %}
 
 {%  block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-10">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Expenses Summary</a></li>
-                  <li class="breadcrumb-item active" arial-current="page">Summary</li>
-                </ol>
-              </nav>
+
+
+{% comment %} <div class="mt-4">
+    <canvas id="myChart" width="200" height="100"></canvas>
+</div> {% endcomment %}
+
+<div class="card" style="width: 25rem; height:25rem; margin-left:10px; margin-top:10px;">
+    <div class="card-body">
+        <h3 class="card-title text-center">Expense Per Category</h3>
+        <div class="chart center" style="height:300px; width:300px;">
+            <!-- Chart wrapper -->
+            <canvas id="myChart" class="chart-canvas"></canvas>
         </div>
     </div>
 </div>
+ 
 
-<div class="col-md-7">
-    <canvas id="myChart" width="200" height="100"></canvas>
-</div>
 
 
 <script src="{% static './js/stats.js' %}"></script>

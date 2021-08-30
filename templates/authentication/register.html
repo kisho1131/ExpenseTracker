@@ -2,53 +2,84 @@
 {% load static %}
 
 {% block content %}
-<div class="card bg-light">
-    <article class="card-body mx-auto" style="width: 500px;">
-        <h2 class="card-title mt-3 text-center">Create Account</h2>
-        <p class="text-center">Get started with your free account</p>
-        
-        <form method= "POST" action="{% url 'register' %}">
-            {% csrf_token %}
-            {% include 'partials/_message.html' %}
 
+<div class="container pb-5 pt-4">
 
-            <div class="form-group input-group"> <!-- form-group-Username // -->
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card bg-secondary border-0">
+                <div class="card-header bg-transparent pb-5">
+                <div class="text-muted text-center mt-2 mb-4"><b>Sign up with</b></div>
+                <div class="text-center">
+                    <a href="#" class="btn btn-neutral btn-icon mr-4">
+                    <span class="btn-inner--icon"><img src="{% static './img/icons/common/github.svg'%}"></span>
+                    <span class="btn-inner--text">Github</span>
+                    </a>
+                    <a href="#" class="btn btn-neutral btn-icon">
+                    <span class="btn-inner--icon"><img src="{% static './img/icons/common/google.svg'%}"></span>
+                    <span class="btn-inner--text">Google</span>
+                    </a>
                 </div>
-                <input name="username" id = "username" class="form-control" placeholder="UserName" type="text" value="{{fieldValues.username}}">
-            </div> <!-- form-group-Username // -->
-            <div class="invalid_feedback invalid-feedback" style="display: none;"> </div>
-            <p class="text-sm text-success usernameSuccessOutput"></p>
-
-
-            <!-- form-group-Email // -->
-            <div class="form-group input-group"> 
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                 </div>
-                <input name="email" class="form-control" placeholder="Email Address" id ="email" type="email" value = "{{fieldValues.email}}">
-            </div> <!-- form-group-Email // -->
-            <div class="invalid_emailFeedBack invalid-feedback" style="display: none;"> </div>
-            <p class="text-sm text-success emailSuccessOutput"></p>
-
-             <!-- form-group-Password // -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                <div class="card-body px-lg-5 py-lg-5">
+                <div class="text-center text-muted mb-4">
+                    <b>Or sign up with credentials</b>
                 </div>
-                <input name = "password" id = "password" class="form-control" placeholder="Create password" type="password" >
-            </div> <!-- form-group-Password // -->
-            <small class="float-right showPasswordToggle ">SHOW PASSWORD</small>
 
-            <br>
-            <div class="form-group py-3">
-                <input type="submit" value="Register" class ="btn btn-block btn-primary submit-btn">
-            </div> <!-- form-group-Submit-Button // --> 
 
-            <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a> </p>                                                                 
-        </form>
-    </article>
-</div> <!-- card.// -->
-<script src="{%static 'js/register.js' %}"></script>
+                <form role="form" method= "POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    {% include 'partials/_message.html' %}
+
+                    <div class="form-group">
+                    <div class="input-group input-group-merge input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                        </div>
+                        <input name="username" id ="username" class="form-control" placeholder="Username" type="text" value="{{fieldValues.username}}">
+                    </div>
+                    </div>
+                    <div class="invalid_feedback invalid-feedback" style="display: none;"> </div>
+                    <p class="text-sm text-success usernameSuccessOutput"></p>
+
+
+                    <div class="form-group">
+                    <div class="input-group input-group-merge input-group-alternative mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                        </div>
+                        <input name="email"  class="form-control" placeholder="Email" id ="email" type="email" value = "{{fieldValues.email}}">
+                    </div>
+                    </div>
+                    <div class="invalid_emailFeedBack invalid-feedback" style="display: none;"> </div>
+                    <p class="text-sm text-success emailSuccessOutput"></p>
+
+
+
+                    <div class="form-group">
+                    <div class="input-group input-group-merge input-group-alternative">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                        </div>
+                        <input name = "password" id = "password"  class="form-control" placeholder="Password" type="password">
+                    </div>
+                    <span><small class="float-right showPasswordToggle mt-1"><b>SHOW PASSWORD<b></small></span>
+                    </div>
+
+                    <div class="form-group text-center">
+                    {% comment %} <button type="button" class="btn btn-primary mt-4">Create account</button> {% endcomment %}
+                    <input type="submit" value="Create account" class ="btn btn-primary mt-4 submit-btn">
+                    <p></p>
+                    <span class="text-center mt-2"><b>Have an account? <a href="{% url 'login' %}">Log In</a> </b></span>
+                    </div>
+                </form>
+
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script src="{%static './js/register.js' %}"></script>
 {% endblock %}

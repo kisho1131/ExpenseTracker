@@ -1,27 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="mt-3"> Add Expenses </h2>
-<div class="container mt-4">
-  <div class="row">
-    <!-- Breadcrum -->
+
+<div class="card " style="width: 50rem; margin-left:100px; margin-top:50px;">
+  <div class="card-body">
+    
+    <div class="row">
     <div class="col-md-10">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'expenses' %}">Expenses</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Edit Expenses</li>
-        </ol>
-      </nav>
+    <h1 class="card-title text-center"> <b>Edit Expenses</b></h1>
     </div>
     <div class="col-md-2">
-      <a href="{% url 'delete-expense' expense.id %}" class="btn btn-danger btn-sm">Delete</a>
+      <a href="{% url 'delete-expense' expense.id %}" class="btn btn-danger btn-sm">Delete Expense</a>
     </div>
-  </div>
-</div>
-
-
-  <div class="card" style="width: 45rem;">
-    <div class="card-body">
-      <form action="{% url 'edit-expense' expense.id %}" method="post">
+    </div>
+    
+     <form action="{% url 'edit-expense' expense.id %}" method="post">
         <div class="mt-2">
           {% include 'partials/_message.html' %}
         </div>
@@ -29,7 +21,7 @@
 
         {% csrf_token %}
         <div class="mb-3">
-          <label  class="form-label">Amount</label>
+        <label  class="form-label">Amount</label>
           <input type="number" class="form-control" name = "amount" value="{{values.amount}}"  placeholder="Enter Amount">
         </div>
 
@@ -38,9 +30,11 @@
           <input type="text" class="form-control" name="description" value="{{values.description}}"  placeholder="Enter Description">
         </div>
 
+
         <div class="mb-3">
           <label  class="form-label">Categories </label>
-          <select class="form-select" name = "category" aria-label="Default select example">
+          <select class="form-control" name = "category" aria-label="Default select example">
+
             <option value="{{values.category}}" selected>{{values.category}}</option>
             {% for category in categories %}
             <option value="{{category.name}}" name = "category">{{category.name}}</option>
@@ -50,14 +44,13 @@
 
         <div class="mb-3">
           <label  class="form-label">Date</label>
-          <input type="date" class="form-control" name = "date" value="{{values.date | date:'Y-m-d'}}" >
+          <input type="date" class="form-control" name = "date" value="{{values.date | date:'Y-m-d'}}">
         </div>
         <input type="submit" class="btn btn-primary" value="Save Expense">
 
       </form>
-
-    </div>
   </div>
+</div>
 
 
 {% endblock %}
