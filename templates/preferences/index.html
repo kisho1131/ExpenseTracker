@@ -2,25 +2,38 @@
 
 {% block content %}
 
-<div class="container mt-4">
-    {% include 'partials/_message.html' %}
-    <h5>Preferred Currency</h5>
-    <form action="{% url 'preference' %}" method="POST">
-        {% csrf_token %}
-        <div class="input-group">
-            <select class="form-select" name = "currency" id="inputGroupSelect04" aria-label="Example select with button addon">
-              {% if userpreferences.currency %}
-              <option name = "currency" selected>{{userpreferences.currency}}</option>
-              {% endif %}
-                
-              {% for currency in currencies %}
-              <option name = "currency" value = "{{currency.value}}">{{currency.name}} - {{currency.value}}</option>
-              {% endfor %}
-            </select>
-            <input class="btn btn-outline-secondary" type="submit" value="Save">
-          </div>
-        </form>
+<div class="card " style="width: 50rem; margin-left:100px; margin-top:50px;">
+  <div class="card-body"> 
+    <div class="row">
+    <div class="col-md-12">
+    <h1 class="card-title text-center"> <b>Select Prefered Currency</b></h1>
+    </div>
+    </div>
+    
+     <form action="{% url 'preference' %}" method="post">
+        <div class="mt-2">
+          {% include 'partials/_message.html' %}
+        </div>
 
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label  class="form-label"> <b>Select Currency</b> </label>
+          <select class="form-control" name = "currency" aria-label="Default select example">
+            {% if userpreferences.currency %}
+              <option name = "currency" selected>{{userpreferences.currency}}</option>
+            {% endif %}
+
+            {% for currency in currencies %}
+             <option name = "currency" value = "{{currency.value}}">{{currency.name}} - {{currency.value}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <input type="submit" class="btn btn-primary " value="Save">
+      </form>
+  </div>
 </div>
+
 
 {% endblock %}
